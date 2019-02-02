@@ -287,36 +287,60 @@ legal_moves <- function(state) {
     ungroup()
 }
 
-plot_state <- function(state, showlegalmoves = FALSE, showmovecost = FALSE, showmoveprofit = FALSE, showmovenumber = FALSE) {
+plot_state <- function(
+  state,
+  showlegalmoves = TRUE,
+  showmovecost = FALSE,
+  showmoveprofit = FALSE,
+  showmovenumber = FALSE,
+  consumerpath = NULL
+) {
   colors <- hue_pal()(state$params$producer_names %>% length() + 1)
   names(colors) <- c("None", state$params$producer_names)
 
+  consumers <- state$consumers %>%
+    mutate(
+      tip = paste0(count, " consumers with preference: ", LETTERS[xcor], "\n",
+                   "Distance to closest product: ", distance_bought, "\n",
+                   "Last bought from: ", last_bought
+      )
+    )
+
+  mark_moves <- state$legal_moves %>%
+    mutate(
+      tip = paste0("Cost: ", cost)
+    )
+
   g <- state$products %>%
-    ggplot(aes(x = xcor, y = ycor)) +
-    labs(x = "Preference fit", y = "Technology level", color = "Owner") +
-    coord_equal(xlim = c(1, state$params$max_xcor), ylim = c(1, state$params$max_ycor))  +
-    scale_x_continuous(breaks = 1:state$params$max_xcor) +
+    ggplot(aes(x = LETTERS[xcor], y = ycor)) +
+    geom_point(aes(color = owner), size = 10) +
+    geom_point_interactive(data = consumers, aes(color = last_bought, tooltip = tip), size = 8.5, shape = 15) +
+    geom_point_interactive(
+      data = mark_moves,
+      aes(x = x, y = y, tooltip = tip, data_id = move),
+      color = colors[which(names(colors) == state$nextplayer)],
+      size = 3, stroke = 3, pch = 1
+    ) +
+    geom_text(data = consumers, aes(label = count)) +
+    geom_text(data = state$legal_moves, aes(x = x, y = y, label = cost), nudge_y = 0.25, color = "black") +
+    coord_equal() +
     scale_y_continuous(breaks = 1:state$params$max_ycor) +
     scale_color_manual(values = colors) +
-    geom_point(aes(color = owner), size = 10) +
-    geom_point(data = state$consumers, aes(color = last_bought), size = 10, shape = 15) +
-    geom_text(data = state$consumers, aes(label = count)) +
-    theme_grey((base_size = 18)) +
-    theme(panel.grid.minor = element_blank(),
-          panel.grid.major = element_line(size = 1))
+    labs(x = "Preference fit", y = "Technology level", color = NULL) +
+    guides(color = guide_legend(override.aes = list(shape = 15))) +
+    theme_grey((base_size = 14)) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(size = 1),
+      legend.position = "bottom",
+      plot.margin = margin(5, -50, -50, -50, "pt")
+    )
 
-  if (showlegalmoves) {
-    g <- g + geom_point(data = state$legal_moves, aes(x = x, y = y), pch = 1, col = "black", size = 3, stroke = 2)
+  if (!is.null(consumerpath)) {
+    g <- g + geom_step(data = consumerpath, aes(x = LETTERS[x], y = y), direction = "vh")
   }
 
-  if (showmovecost) {
-    g <- g + geom_text(data = state$legal_moves, aes(x = x, y = y, label = cost), nudge_y = 0.25, color = "black")
-  }
-
-  if (showmovenumber) {
-    g <- g + geom_text(aes(label = counter))
-  }
-  g
+  x <- ggiraph(ggobj = g, width = 1, selection_type = "single")
 }
 
 state_to_vec <- function(state) {
@@ -347,5 +371,18 @@ state_to_vec <- function(state) {
       function(x)
         ifelse(state$last_move == x, 1, 0)
     )
+  )
+}
+
+move_short_to_fullname <- function(shortname) {
+  shortname %>% when(
+    . == "c" ~ "Check (do nothing)",
+    . == "r" ~ "Adjust marketing right",
+    . == "l" ~ "Adjust marketing left",
+    . == "u" ~ "Improve technology",
+    . == "i" ~ "Imitate competitor",
+    . == "ir" ~ "Imitate & adjust marketing right",
+    . == "il" ~ "Imitate & adjust marketing left",
+    . == "iu" ~ "Imitate & improve technology"
   )
 }

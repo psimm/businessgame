@@ -1,11 +1,16 @@
 server <- function(input, output, session) {
+  params <- create_params()
+  state <- create_state(params)
+
   values <- reactiveValues()
+  values$params <- params
+  values$state <- state
 
   # New game button
   observeEvent(input$new_game, {
-    values$params <- create_params(players = c("Player A", "Player B"))
+    values$params <- create_params(players = c("You", "Computer"))
     values$state <- create_state(values$params)
-    values$player_id <- ifelse(runif(1) >= 0.5, "Player A", "Player B")
+    values$player_id <- "You"
     },
     ignoreInit = FALSE,
     ignoreNULL = FALSE
@@ -36,7 +41,7 @@ server <- function(input, output, session) {
   })
 
   observe({
-    button_label <- ifelse(values$state$nextplayer == values$player_id, "Do move", "Let AI move")
+    button_label <- ifelse(values$state$nextplayer == values$player_id, "Do move", "Let computer move")
     updateActionButton(session = session,
                        inputId = "do_move",
                        label = button_label)
@@ -52,7 +57,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$stateplot <- renderPlot({
+  output$stateplot <- renderGirafe({
     plot_state(values$state)
   })
 
@@ -67,7 +72,13 @@ server <- function(input, output, session) {
   })
 
   output$move_history <- renderTable({
-    values$state$history
+    if (!is.null(values$state$history)) {
+
+      values$state$history %>%
+        mutate(move = map_chr(move, move_short_to_fullname)) %>%
+        rename(`New balance` = new_balance) %>%
+        set_colnames(str_to_title(colnames(.)))
+    }
   })
 
   output$balance <- renderText({
