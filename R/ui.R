@@ -1,20 +1,10 @@
 ui <- fluidPage(
   titlePanel("Research & Development Business Game"),
-  helpText("Play the business game from Paul Simmering's master thesis."),
+  helpText("Take the role of a product manager and navigate a market of innovation and imitation."),
   sidebarPanel(
-    radioButtons("move", "Choose a move:",
-                 list(`Do nothing.` = "c",
-                      `Adjust marketing right.` = "r",
-                      `Adjust marketing left.` = "l",
-                      `Improve technology.` = "u",
-                      `Imitate competitor.` = "i",
-                      `Imitate competitor & adjust marketing right.` = "ir",
-                      `Imitate competitor & adjust marketing left.` = "il",
-                      `Imitate competitor & improve technology.` = "iu"
-                 )
-    ),
+    textOutput("balance"),
     actionButton("do_move", "Do Move"),
-    br(),
+    uiOutput("move_choices"),
     br(),
     actionButton("new_game", "New game"),
     width = 3
@@ -25,8 +15,7 @@ ui <- fluidPage(
         title = "Game",
         column(
           12,
-          girafeOutput("stateplot", width = "100%", height = "600px"),
-          textOutput("balance"),
+          girafeOutput("stateplot", width = "100%", height = "500px"),
           tableOutput("move_history")
         )
       ),
@@ -41,20 +30,22 @@ ui <- fluidPage(
           position indicates its dream product. All consumers like products with a high technology level.
           But there are also differences in taste, shown by their different positions on the preference fit axis."),
         strong("Products"),
-        p("Circles represent products. You can count the distance from a product to a consumer block. The closer a product, the more a consumer block
+        p("Filled circles represent products. Your first product (filled green circle) is already on the market. You can count the distance from a product to a consumer block. The closer a product, the more a consumer block
           likes it. If a new product is closer to a consumer block than any previous product, the consumer block buys the product
           and the product maker receives money equal to the number of consumers in the block."),
         strong("Moves"),
         p("New products can be developed by improving the technology of the product
-          that you already have, or by changing its marketing. You can also imitate your competitor's latest product. Player A begins.
-          Products have numbers of them that show the order in which they were made. For example, the third product made by a player will
-          have a 3 on it."),
+          that you already have, or by changing its marketing. You can also imitate your competitor's latest product.
+          Possible moves are indicated by empty circles. The number atop indicates the cost."),
         strong("End of the game"),
         p("The game ends when one producer makes a product that has the highest technology level (10). It
           also ends if both producers decide they don't want to do anything one after another.")
       ),
       tabPanel(
         title = "Settings",
+        radioButtons("order", strong("Move order"),
+                     choices = c("Go first", "Go second"), inline = TRUE
+        ),
         sliderInput("y_cost", strong("Cost of improving technology"),
                     min = 0, max = 100, value = 45
         ),
@@ -68,9 +59,13 @@ ui <- fluidPage(
       ),
       tabPanel(
         title = "Research",
-        p("This business game is part of a study at Aalborg University on human and AI business decision making."),
+        p("This business game was part of a study at Aalborg University on human and AI business decision making.
+          Read more about the study at ", tags$a(href = "https://projekter.aau.dk/projekter/da/studentthesis/human-and-ai-decision-making-in-a-game-of-innovation-and-imitation(9121a1ed-d5d7-4cf0-b725-41f822533544).html",
+               "https://projekter.aau.dk/projekter/da/studentthesis/human-and-ai-decision-making-in-a-game-of-innovation-and-imitation(9121a1ed-d5d7-4cf0-b725-41f822533544).html")),
         br(),
-        p("Contact: paul.simmering@gmail.com")
+        p("Source code is available at ", tags$a(href = "https://github.com/psimm/rd_game", "https://github.com/psimm/rd_game")),
+        br(),
+        p("Contact: Paul Simmering (paul.simmering@gmail.com)")
       )
     )
   )

@@ -1,16 +1,16 @@
-library(dplyr)
-library(purrr)
-library(tibble)
-library(stringr)
-library(ggplot2)
-library(magrittr)
-library(scales)
 library(shiny)
+library(dplyr)
+library(tibble)
+library(purrr)
+library(ggplot2)
 library(ggiraph)
 
 source("R/game.R")
 source("R/ai.R")
 source("R/ui.R")
 source("R/server.R")
+
+params <- create_params(players = c("You", "Computer"))
+state <- create_state(params)
 
 shinyApp(ui, server)
