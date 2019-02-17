@@ -11,6 +11,7 @@ ui <- fluidPage(
   ),
   mainPanel(
     tabsetPanel(
+      id = "tabs",
       tabPanel(
         title = "Game",
         column(

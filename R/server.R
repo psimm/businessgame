@@ -8,8 +8,19 @@ server <- function(input, output, session) {
   observeEvent(input$new_game, {
     players <- c("You", "Computer")
     if (input$order == "Go second") players <- rev(players)
+
+    # Reset the game
     values$params <- create_params(players)
     values$state <- create_state(values$params)
+
+    # Switch to game tab
+    updateTabsetPanel(
+      session = session,
+      inputId = "tabs",
+      selected = "Game"
+    )
+
+    # Announce new game to player
     showNotification(
       ui = "New game started.",
       type = "message",
