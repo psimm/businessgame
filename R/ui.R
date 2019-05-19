@@ -64,7 +64,7 @@ ui <- fluidPage(
           Read more about the study at ", tags$a(href = "https://projekter.aau.dk/projekter/da/studentthesis/human-and-ai-decision-making-in-a-game-of-innovation-and-imitation(9121a1ed-d5d7-4cf0-b725-41f822533544).html",
                "https://projekter.aau.dk/projekter/da/studentthesis/human-and-ai-decision-making-in-a-game-of-innovation-and-imitation(9121a1ed-d5d7-4cf0-b725-41f822533544).html")),
         br(),
-        p("Source code is available at ", tags$a(href = "https://github.com/psimm/rd_game", "https://github.com/psimm/rd_game")),
+        p("Source code is available at ", tags$a(href = "https://github.com/psimm/businessgame", "https://github.com/psimm/businessgame")),
         br(),
         p("Contact: Paul Simmering (paul.simmering@gmail.com)")
       )
