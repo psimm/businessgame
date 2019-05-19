@@ -114,19 +114,16 @@ server <- function(input, output, session) {
   })
 
   observeEvent(values$state$nextplayer, {
-    if (values$state$nextplayer == "You") {
-      updateActionButton(
+    btn_label <- ifelse(
+      values$state$nextplayer == "You",
+      "Do your move",
+      "Let computer move"
+    )
+    updateActionButton(
         session = session,
         inputId = "do_move",
-        label = "Do your move"
-      )
-    } else {
-      updateActionButton(
-        session = session,
-        inputId = "do_move",
-        label = "Let computer move"
-      )
-    }
+        label = btn_label
+    )
   })
 
   output$stateplot <- renderGirafe({
