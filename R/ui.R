@@ -26,6 +26,9 @@ ui <- fluidPage(
         strong("Introduction"),
         p("You are the CEO of a company that researches and sells consumer technology goods.
           A new product has been invented. You, along with one competitor, are the first to market."),
+        img(src = 'howtoplay.png', id = "img_howtoplay"),
+        br(),
+        br(),
         strong("Consumers"),
         p("You earn money by creating products that consumers like. Consumers are the
           blocks at the top row. The number on each block tells you how many consumers are in it. A consumer block's

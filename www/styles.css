@@ -12,3 +12,10 @@
 #do_move:hover {
   background-color: #337ab7;
 }
+
+#img_howtoplay {
+  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
