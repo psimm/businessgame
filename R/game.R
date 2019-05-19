@@ -346,8 +346,6 @@ plot_state <- function(state) {
   ggiraph(ggobj = g, width = 1, selection_type = "single")
 }
 
-params <- create_params(players = c("You", "Computer"))
-
 # Specify order so moves are always listed in the same arrangement
 move_order <- tibble(
   move = c("c", "l", "r", "u", "i", "il", "ir", "iu"),
