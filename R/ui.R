@@ -4,9 +4,9 @@ ui <- fluidPage(
   helpText("Take the role of a product manager and navigate a market of innovation and imitation."),
   sidebarPanel(
     textOutput("balance"),
-    actionButton("do_move", "Do Move"),
+    actionButton("do_move", "Do Move", icon = icon("play")),
     uiOutput("move_choices"),
-    actionButton("new_game", "New game"),
+    actionButton("new_game", "New game", icon = icon("refresh")),
     width = 3
   ),
   mainPanel(
@@ -18,7 +18,8 @@ ui <- fluidPage(
           12,
           girafeOutput("stateplot", width = "100%", height = "650px"),
           tableOutput("move_history")
-        )
+        ),
+        icon = icon("gamepad")
       ),
       tabPanel(
         title = "How to play",
@@ -40,7 +41,8 @@ ui <- fluidPage(
           Possible moves are indicated by empty circles. The number atop indicates the cost."),
         strong("End of the game"),
         p("The game ends when one producer makes a product that has the highest technology level (10). It
-          also ends if both producers decide they don't want to do anything one after another.")
+          also ends if both producers decide they don't want to do anything one after another."),
+        icon = icon("question-circle")
       ),
       tabPanel(
         title = "Settings",
@@ -56,7 +58,8 @@ ui <- fluidPage(
         sliderInput("imi_cost", strong("Cost of imitation"),
                     min = 0, max = 100, value = 15
         ),
-        helpText("Settings take effect when a new game is started.")
+        helpText("Settings take effect when a new game is started."),
+        icon = icon("sliders-h")
       ),
       tabPanel(
         title = "Research",
@@ -66,7 +69,8 @@ ui <- fluidPage(
         br(),
         p("Source code is available at ", tags$a(href = "https://github.com/psimm/businessgame", "https://github.com/psimm/businessgame")),
         br(),
-        p("Contact: Paul Simmering (paul.simmering@gmail.com)")
+        p("Contact: Paul Simmering (paul.simmering@gmail.com)"),
+        icon = icon("book")
       )
     )
   )
