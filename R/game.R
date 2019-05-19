@@ -15,7 +15,7 @@ create_params <- function(players) {
   params <- list(
     y_cost = 40,
     x_cost = 20,
-    imi_cost = 15,
+    imi_cost = 20,
     producer_names = players,
     start_xcor = xcors,
     start_ycor = 1,
