@@ -10,7 +10,4 @@ source("R/ai.R")
 source("R/ui.R")
 source("R/server.R")
 
-params <- create_params(players = c("You", "Computer"))
-state <- create_state(params)
-
 shinyApp(ui, server)

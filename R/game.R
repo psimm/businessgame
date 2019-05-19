@@ -351,3 +351,7 @@ move_order <- tibble(
   move = c("c", "l", "r", "u", "i", "il", "ir", "iu"),
   order = 1:8
 )
+
+# Set up the game
+params <- create_params(players = c("You", "Computer"))
+state <- create_state(params)
