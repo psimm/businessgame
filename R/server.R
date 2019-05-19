@@ -66,8 +66,8 @@ server <- function(input, output, session) {
     session$sendCustomMessage(type = 'stateplot_set', message = input$move)
   })
 
-  # Do move button
-  observeEvent(input$do_move, {
+  # Inform user about end of game
+  observeEvent(values$state$game_over, {
     if (values$state$game_over) {
       player_balance <- balance <- values$state$producers %>%
         filter(name == "You") %>%
@@ -88,16 +88,23 @@ server <- function(input, output, session) {
         type = "message",
         duration = NULL
       )
-    } else {
+    }
+  })
+
+  # Do move button
+  observeEvent(input$do_move, {
+    if (!values$state$game_over) {
       if (values$state$nextplayer == "You") {
         if (input$move %in% values$state$legal_moves$move) {
           # Do player's turn
           values$state <- do_move(values$state, input$move)
-          showNotification(
-            ui = "Computer's turn",
-            type = "message",
-            duration = 3
-          )
+          if (!values$state$game_over) {
+            showNotification(
+              ui = "Computer's turn",
+              type = "message",
+              duration = 3
+            )
+          }
         } else {
           showNotification(
             ui = "Error: Illegal move",
@@ -115,6 +122,12 @@ server <- function(input, output, session) {
           duration = 3
         )
       }
+    } else {
+      showNotification(
+        ui = "Game has ended. Please start a new game.",
+        type = "message",
+        duration = 3
+      )
     }
   })
 
