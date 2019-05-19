@@ -327,7 +327,7 @@ plot_state <- function(state) {
     geom_text(
       data = state$legal_moves,
       aes(x = x, y = y, label = cost),
-      nudge_y = 0.25,
+      nudge_y = 0.3,
       color = "black"
     ) +
     coord_equal() +

@@ -61,6 +61,11 @@ server <- function(input, output, session) {
     }
   })
 
+  # When user selects a move, mark product position in ggiraph plot
+  observeEvent(input$move, {
+    session$sendCustomMessage(type = 'stateplot_set', message = input$move)
+  })
+
   # Do move button
   observeEvent(input$do_move, {
     if (values$state$game_over) {
