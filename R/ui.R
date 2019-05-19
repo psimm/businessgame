@@ -21,7 +21,7 @@ ui <- fluidPage(
         )
       ),
       tabPanel(
-        title = "Instructions",
+        title = "How to play",
         strong("Introduction"),
         p("You are the CEO of a company that researches and sells consumer technology goods.
           A new product has been invented. You, along with one competitor, are the first to market."),
