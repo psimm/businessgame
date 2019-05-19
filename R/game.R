@@ -335,7 +335,7 @@ plot_state <- function(state) {
     scale_color_manual(values = colors, breaks = c("You", "Computer", "None")) +
     labs(x = "Preference fit", y = "Technology level", color = NULL) +
     guides(color = guide_legend(override.aes = list(shape = 15))) +
-    theme_grey((base_size = 12)) +
+    theme_grey((base_size = 10)) +
     theme(
       panel.grid.minor = element_blank(),
       panel.grid.major = element_line(size = 1),
