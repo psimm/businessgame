@@ -1,0 +1,14 @@
+.btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#do_move {
+  background-color: #3894e0;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+#do_move:hover {
+  background-color: #337ab7;
+}

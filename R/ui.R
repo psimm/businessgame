@@ -1,9 +1,9 @@
 ui <- fluidPage(
+  includeCSS("www/styles.css"),
   titlePanel("Research & Development Business Game"),
   helpText("Take the role of a product manager and navigate a market of innovation and imitation."),
   sidebarPanel(
     textOutput("balance"),
-    br(),
     actionButton("do_move", "Do Move"),
     uiOutput("move_choices"),
     actionButton("new_game", "New game"),
