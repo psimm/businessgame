@@ -293,15 +293,9 @@ legal_moves <- function(state) {
     ungroup()
 }
 
-plot_state <- function(
-  state,
-  showlegalmoves = TRUE,
-  showmovecost = FALSE,
-  showmoveprofit = FALSE,
-  showmovenumber = FALSE
-) {
-  colors <- c("#F8766D", "#7CAE00", "#00BFC4")
-  names(colors) <- c("None", "You", "Computer")
+plot_state <- function(state) {
+  colors <- c("#7CAE00", "#00BFC4", "#F8766D")
+  names(colors) <- c("You", "Computer", "None")
 
   consumers <- state$consumers %>%
     mutate(
@@ -311,15 +305,18 @@ plot_state <- function(
       )
     )
 
-  mark_moves <- state$legal_moves %>%
-    mutate(
-      tip = paste0("Cost: ", cost)
-    )
+
+  mark_moves <- mutate(state$legal_moves, tip = paste0("Cost: ", cost))
 
   g <- state$products %>%
     ggplot(aes(x = LETTERS[xcor], y = ycor)) +
     geom_point(aes(color = owner), size = 10) +
-    geom_point_interactive(data = consumers, aes(color = last_bought, tooltip = tip), size = 8.5, shape = 15) +
+    geom_point_interactive(
+      data = consumers,
+      aes(color = last_bought, tooltip = tip),
+      size = 8.5,
+      shape = 15
+    ) +
     geom_point_interactive(
       data = mark_moves,
       aes(x = x, y = y, tooltip = tip, data_id = move),
@@ -327,18 +324,23 @@ plot_state <- function(
       size = 3, stroke = 3, pch = 1
     ) +
     geom_text(data = consumers, aes(label = count)) +
-    geom_text(data = state$legal_moves, aes(x = x, y = y, label = cost), nudge_y = 0.25, color = "black") +
+    geom_text(
+      data = state$legal_moves,
+      aes(x = x, y = y, label = cost),
+      nudge_y = 0.25,
+      color = "black"
+    ) +
     coord_equal() +
     scale_y_continuous(breaks = 1:state$params$max_ycor) +
-    scale_color_manual(values = colors) +
+    scale_color_manual(values = colors, breaks = c("You", "Computer", "None")) +
     labs(x = "Preference fit", y = "Technology level", color = NULL) +
     guides(color = guide_legend(override.aes = list(shape = 15))) +
     theme_grey((base_size = 14)) +
     theme(
       panel.grid.minor = element_blank(),
       panel.grid.major = element_line(size = 1),
-      legend.position = "bottom",
-      plot.margin = margin(5, -50, -50, -50, "pt")
+      legend.position = "right",
+      plot.margin = margin(5, 5, 5, 5, "pt")
     )
 
   ggiraph(ggobj = g, width = 1, selection_type = "single")

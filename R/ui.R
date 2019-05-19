@@ -3,9 +3,9 @@ ui <- fluidPage(
   helpText("Take the role of a product manager and navigate a market of innovation and imitation."),
   sidebarPanel(
     textOutput("balance"),
+    br(),
     actionButton("do_move", "Do Move"),
     uiOutput("move_choices"),
-    br(),
     actionButton("new_game", "New game"),
     width = 3
   ),
@@ -16,7 +16,7 @@ ui <- fluidPage(
         title = "Game",
         column(
           12,
-          girafeOutput("stateplot", width = "100%", height = "500px"),
+          girafeOutput("stateplot", width = "100%", height = "650px"),
           tableOutput("move_history")
         )
       ),
