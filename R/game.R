@@ -1,6 +1,6 @@
 # Create the game parameters
 # Some are hardcoded here, others are set by user in settings tab
-create_params <- function(players) {
+create_params <- function(players, x_cost, y_cost, imi_cost) {
   if (!is.null(players)) {
     stopifnot(is.character(players))
   }
@@ -13,16 +13,15 @@ create_params <- function(players) {
   }
 
   params <- list(
-    y_cost = 40,
-    x_cost = 20,
-    imi_cost = 20,
+    y_cost = y_cost,
+    x_cost = x_cost,
+    imi_cost = imi_cost,
     producer_names = players,
     start_xcor = xcors,
     start_ycor = 1,
     start_money = 100,
     max_xcor = 10,
     max_ycor = 10,
-
     consumer_distribution = c(5, 8, 10, 12, 15, 15, 12, 10, 8, 5)
   )
 
@@ -353,5 +352,13 @@ move_order <- tibble(
 )
 
 # Set up the game
-params <- create_params(players = c("You", "Computer"))
+default_x_cost <- 15
+default_y_cost <- 45
+default_imi_cost <- 20
+params <- create_params(
+  players = c("You", "Computer"),
+  default_x_cost,
+  default_y_cost,
+  default_imi_cost
+)
 state <- create_state(params)

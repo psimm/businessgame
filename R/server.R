@@ -15,7 +15,12 @@ server <- function(input, output, session) {
     }
 
     # Reset the game
-    values$params <- create_params(players)
+    values$params <- create_params(
+      players,
+      input$x_cost,
+      input$y_cost,
+      input$imi_cost
+    )
     values$state <- create_state(values$params)
 
     # Switch to game tab

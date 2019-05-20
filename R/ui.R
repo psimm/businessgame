@@ -53,13 +53,13 @@ ui <- fluidPage(
                      choices = c("Go first", "Go second"), inline = TRUE
         ),
         sliderInput("y_cost", strong("Cost of improving technology"),
-                    min = 0, max = 100, value = 45
+                    min = 0, max = 100, value = default_y_cost
         ),
         sliderInput("x_cost", strong("Cost of adjusting marketing"),
-                    min = 0, max = 100, value = 15
+                    min = 0, max = 100, value = default_x_cost
         ),
         sliderInput("imi_cost", strong("Cost of imitation"),
-                    min = 0, max = 100, value = 15
+                    min = 0, max = 100, value = default_imi_cost
         ),
         helpText("Settings take effect when a new game is started."),
         icon = icon("sliders-h")
