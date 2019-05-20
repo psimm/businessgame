@@ -167,7 +167,14 @@ server <- function(input, output, session) {
           move = map_chr(move, move_short_to_fullname)
         ) %>%
         select(`No.`, everything()) %>%
-        rename(`New balance` = new_balance)
+        rename(
+          Player = player,
+          Move = move,
+          Revenue = revenue,
+          Cost = cost,
+          Profit = profit,
+          `New balance` = new_balance,
+        )
     }
   })
 
