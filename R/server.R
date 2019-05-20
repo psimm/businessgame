@@ -9,6 +9,11 @@ server <- function(input, output, session) {
     players <- c("You", "Computer")
     if (input$order == "Go second") players <- rev(players)
 
+    # Remove game over ID
+    if (exists("gameover_id")) {
+      removeNotification(gameover_id)
+    }
+
     # Reset the game
     values$params <- create_params(players)
     values$state <- create_state(values$params)
@@ -83,7 +88,8 @@ server <- function(input, output, session) {
         msg <- "You lost."
       }
       msg <- paste("Game over.", msg)
-      showNotification(
+      # Save the ID for removal later
+      gameover_id <<- showNotification(
         ui = msg,
         type = "message",
         duration = NULL
